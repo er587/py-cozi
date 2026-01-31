@@ -385,20 +385,27 @@ class Cozi:
             else:
                 _temp_day = str(day)
 
+            # Build details dict, only include non-empty values
+            details = {"subject": subject}
+            if start_time:
+                details["startTime"] = start_time
+            if end_time:
+                details["endTime"] = end_time
+            if date_span and date_span > 1:
+                details["dateSpan"] = date_span  # Only for multi-day events
+            if attendees:
+                details["attendeeSet"] = attendees
+            if location:
+                details["location"] = location
+            if notes:
+                details["notes"] = notes
+
             _data = [
                 {
                     "itemType": "appointment",
                     "create": {
                         "startDay": str(year) + "-" + _temp_month + "-" + _temp_day,
-                        "details": {
-                            "startTime": start_time,
-                            "endTime": end_time,
-                            "dateSpan": date_span,
-                            "attendeeSet": attendees,
-                            "location": location,
-                            "notes": notes,
-                            "subject": subject,
-                        },
+                        "details": details,
                     },
                 }
             ]
